@@ -9,7 +9,7 @@ export function displayList(myTasks) {
 
     //вставляем в li информацию из объекта
     item.innerHTML = ` 
-    <input type="checkbox">
+    <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
     <span>${task.taskName}</span>
     <button class="delete-button" data-id=${task.id}>Delete</button>
     `;

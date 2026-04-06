@@ -40,6 +40,7 @@ tasksList.onclick = function (event) {
 
   // ищет снизу вверх первый элемент с нужным классом
   const deleteButton = target.closest(".delete-button");
+  const checkbox = target.closest(".checkbox");
 
   if (deleteButton) {
     // если нашел
@@ -50,6 +51,21 @@ tasksList.onclick = function (event) {
     saveTasks(myTasks); // сохраняем
     displayList(myTasks); // отрисовываем
     return; // выход из функции
+  }
+
+  if (checkbox) {
+    const taskID = checkbox.dataset.id;
+
+    // поиск задачи по чекбоксу которой кликнули
+    let foundTask = myTasks.find((task) => task.id === taskID);
+
+    // проверка на пустое значение
+    if (foundTask) {
+      foundTask.isDone = !foundTask.isDone; // переключение статуса при клике
+    }
+
+    saveTasks(myTasks);
+    displayList(myTasks);
   }
 };
 
