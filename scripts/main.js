@@ -2,28 +2,36 @@ import { saveTasks, loadTasks } from "./storage.js";
 import { displayList } from "./ui.js";
 
 const openModalButton = document.getElementById("openModalButton");
-const closeModalButton = document.getElementById("closeModalButton");
+const closeModalButton = document.querySelector(".closeModalButton");
 const addButton = document.getElementById("addButton"); // переменная для кнокпи добавления задачи
 const tasksList = document.querySelector(".to-do-list");
-const modal = document.querySelector(".add-modal");
+const addModal = document.querySelector(".add-modal");
+const editModal = document.querySelector(".edit-modal");
+const deleteButton = document.querySelector("#deleteButton");
 
 let myTasks = loadTasks(); //загружает в массив данные из бд
 // newTask — это объект (одна карточка), а myTasks — это массив (стопка карточек)
 displayList(myTasks); //отрисвка уже имеющихся задач
 
-openModalButton.onclick = function (event) {
+openModalButton.onclick = function () {
   //функция открытия модалки с добавлением задачи
-  switchingClass();
+  switchingClassForAddModal();
 };
 
-closeModalButton.onclick = function (event) {
+closeModalButton.onclick = function () {
   //функция закрытия модалки
-  switchingClass();
+  switchingClassForAddModal();
 };
 
-function switchingClass() {
+function switchingClassForAddModal() {
   tasksList.classList.toggle("hidden");
-  modal.classList.toggle("hidden"); //переключение класса у модалки
+  addModal.classList.toggle("hidden"); //переключение класса у модалки
+  openModalButton.classList.toggle("hidden");
+}
+
+function switchingClassForEditModal() {
+  tasksList.classList.toggle("hidden");
+  editModal.classList.toggle("hidden"); //переключение класса у модалки
   openModalButton.classList.toggle("hidden");
 }
 
@@ -67,26 +75,13 @@ addButton.onclick = function (event) {
   document.getElementById("category").value = "";
 
   displayList(myTasks);
-  switchingClass();
+  switchingClassForAddModal();
 };
 
 tasksList.onclick = function (event) {
   const target = event.target; // ловим куда реально кликнули
-
-  // ищет снизу вверх первый элемент с нужным классом
-  const deleteButton = target.closest(".delete-button");
+  const taskItem = target.closest(".to-do-item");
   const checkbox = target.closest(".checkbox");
-
-  if (deleteButton) {
-    // если нашел
-    const taskID = deleteButton.dataset.id; //получаем id задачи из кнопки
-
-    //перезаписываем в массив отфильтрованные (без удаленного элемента) объекты
-    myTasks = deleteTask(myTasks, taskID);
-    saveTasks(myTasks); // сохраняем
-    displayList(myTasks); // отрисовываем
-    return; // выход из функции
-  }
 
   if (checkbox) {
     const taskID = checkbox.dataset.id;
@@ -101,6 +96,14 @@ tasksList.onclick = function (event) {
 
     saveTasks(myTasks);
     displayList(myTasks);
+
+    return
+  } 
+   if (taskItem) {
+    const taskID = taskItem.dataset.id;
+    
+    deleteButton.dataset.id = taskID;
+    switchingClassForEditModal();
   }
 };
 
@@ -108,3 +111,16 @@ function deleteTask(tasks, id) {
   // если id который был передан не соответствует id объкта то оставляем
   return tasks.filter((task) => task.id !== id);
 }
+
+deleteButton.onclick = function () {
+  const taskID = this.dataset.id; //получаем id задачи из кнопки
+
+  if (taskID) {
+    myTasks = deleteTask(myTasks, taskID);
+    saveTasks(myTasks);
+    displayList(myTasks);
+
+    // Закрываем модалку после удаления
+    switchingClassForEditModal();
+  }
+};

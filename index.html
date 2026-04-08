@@ -13,11 +13,10 @@
   <body>
     <section class="container main-section">
       <h1 class="visually-hidden">To-Do List</h1>
-
       <ul class="to-do-list"></ul>
-      <button id="openModalButton">Add task</button>
+      <button id="openModalButton">Add a task</button>
       <form class="add-modal hidden">
-        <button id="closeModalButton" class="button"></button>
+        <button class="closeModalButton button"></button>
         <h2>Add task</h2>
         <label for="taskName" class="visually-hidden">Write a task...</label>
         <input
@@ -41,9 +40,7 @@
           >Choose a category...</label
         >
         <select name="category" id="category">
-          <option value="" disabled selected>
-            Choose a category...
-          </option>
+          <option value="" disabled selected>Choose a category...</option>
           <option value="other">Other</option>
           <option value="personal">Personal</option>
           <option value="home">Home</option>
@@ -52,6 +49,47 @@
           <option value="health">Health</option>
         </select>
         <button id="addButton" class="button">Add</button>
+      </form>
+      <form class="edit-modal hidden">
+        <button class="closeModalButton button"></button>
+        <h2>Editing a task</h2>
+        <label for="renameTask" class="visually-hidden"
+          >Rename the task...</label
+        >
+        <input
+          type="text"
+          name="renameTask"
+          id="renameTask"
+          placeholder="Rename the task..."
+        />
+        <label for="editDeadline" class="visually-hidden"
+          >Write the deadline...</label
+        >
+        <input
+          type="date"
+          name="editDeadline"
+          id="editDeadline"
+          placeholder="Edit the deadline..."
+        />
+        <label for="editCategory" class="visually-hidden"
+          >Change a category...</label
+        >
+        <select name="editCategory" id="editCategory">
+          <option value="" disabled selected>Choose a category...</option>
+          <option value="other">Other</option>
+          <option value="personal">Personal</option>
+          <option value="home">Home</option>
+          <option value="family">Family</option>
+          <option value="work">Work</option>
+          <option value="health">Health</option>
+        </select>
+        <div class="edit-modal-buttons">
+          <button id="saveButton" class="button" type="button">
+            Save changes</button
+          ><button id="deleteButton" class="button" type="button">
+            Delete task
+          </button>
+        </div>
       </form>
     </section>
     <script type="module" src="scripts/main.js"></script>

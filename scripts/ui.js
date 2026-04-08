@@ -6,6 +6,7 @@ export function displayList(myTasks) {
   myTasks.forEach((task) => {
     const item = document.createElement("li"); //создаем li
     item.className = "to-do-item"; // задаем класс для li
+    item.dataset.id = task.id;
 
     //вставляем в li информацию из объекта
     item.innerHTML = ` 
