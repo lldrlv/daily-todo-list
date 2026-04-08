@@ -1,0 +1,200 @@
+body {
+  font-family: "Inter";
+  display: flex;
+  justify-content: center; /* Центрируем контейнер по горизонтали */
+  align-items: center; /* Центрируем по вертикали */
+  min-height: 100vh; /* Чтобы body всегда был на весь экран */
+  margin: 0;
+  background-color: #eee;
+}
+
+:root {
+  --height-input-and-button: 56px;
+  --input-and-task-bg-color: #f3efee;
+  --input-and-button-border-radius: 12px;
+}
+
+button {
+  flex-shrink: 0; /* Чтобы кнопка не сжималась */
+  width: 100%;
+  height: var(--height-input-and-button);
+  background-color: #393433;
+  color: var(--input-and-task-bg-color);
+  border-radius: var(--input-and-button-border-radius);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: none;
+}
+
+input:focus,
+select:focus,
+button:focus,
+.checkbox:focus {
+  outline: 2px solid #9f9f9f;
+  outline-offset: 3px;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f5f4;
+  width: 350px;
+  height: 700px;
+  padding: 56px 22px 26px;
+  border-radius: 2px;
+  box-shadow: 3px 3px 4px #d2d2d2;
+  box-sizing: border-box;
+}
+
+.to-do-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow-y: auto;
+  flex-grow: 1; /* Забирает свободное место, толкая кнопку вниз */
+  margin-bottom: 20px;
+}
+
+.to-do-item {
+  height: var(--height-input-and-button);
+  min-height: var(--height-input-and-button);
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  padding-inline: 16px;
+  background-color: var(--input-and-task-bg-color);
+  border-radius: var(--input-and-button-border-radius);
+}
+
+.delete-button {
+  margin-left: auto;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: #9f9f9f 2px solid;
+  border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.checkbox:checked {
+  background-color: #9f9f9f;
+}
+
+.checkbox:checked::after {
+  content: "✓";
+  color: var(--input-and-task-bg-color);
+  font-size: 16px;
+}
+
+.add-modal {
+  margin-top: -25px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+#addButton {
+  margin-top: auto;
+}
+
+#closeModalButton {
+  position: relative;
+  background-color: #393433;
+  border-radius: var(--input-and-button-border-radius);
+  align-self: flex-end;
+  width: 30px;
+  height: 30px;
+}
+
+#closeModalButton::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 2px;
+  background-color: var(--input-and-task-bg-color);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  rotate: 135deg;
+}
+
+#closeModalButton::after {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 2px;
+  background-color: var(--input-and-task-bg-color);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  rotate: 45deg;
+}
+
+.add-modal input,
+select {
+  height: var(--height-input-and-button);
+  background-color: var(--input-and-task-bg-color);
+  border: none;
+  border-radius: 20px;
+}
+.add-modal input {
+  padding-inline: 16px;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-left: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23393433' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 45px;
+}
+
+h2 {
+  text-align: center;
+  font-weight: 700;
+  margin: 0;
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 100%;
+    height: 100vh;
+  }
+}

@@ -2,31 +2,58 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-do List</title>
     <link rel="stylesheet" href="styles/normilize.css" />
     <link rel="stylesheet" href="styles/style.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+    </style>
   </head>
   <body>
-    <section class="container main-section"></section>
-    <h1 class="visually-hidden">To-Do List</h1>
-    
-    <ul class="to-do-list"></ul>
-    <form class="add-task-form">
-      <label for="taskName">Write a task...</label>
-      <input
-        type="text"
-        name="taskName"
-        id="taskName"
-        placeholder="Write a task..."
-        required
-      />
-      <button id="addButton">Add</button>
-    </form>
+    <section class="container main-section">
+      <h1 class="visually-hidden">To-Do List</h1>
+
+      <ul class="to-do-list"></ul>
+      <button id="openModalButton">Add task</button>
+      <form class="add-modal hidden">
+        <button id="closeModalButton" class="button"></button>
+        <h2>Add task</h2>
+        <label for="taskName" class="visually-hidden">Write a task...</label>
+        <input
+          type="text"
+          name="taskName"
+          id="taskName"
+          placeholder="Write a task..."
+          required
+        />
+        <label for="deadline" class="visually-hidden"
+          >Write a deadline...</label
+        >
+        <input
+          type="date"
+          name="deadline"
+          id="deadline"
+          placeholder="Write a deadline..."
+          required
+        />
+        <label for="category" class="visually-hidden"
+          >Choose a category...</label
+        >
+        <select name="category" id="category">
+          <option value="" disabled selected>
+            Choose a category...
+          </option>
+          <option value="other">Other</option>
+          <option value="personal">Personal</option>
+          <option value="home">Home</option>
+          <option value="family">Family</option>
+          <option value="work">Work</option>
+          <option value="health">Health</option>
+        </select>
+        <button id="addButton" class="button">Add</button>
+      </form>
+    </section>
     <script type="module" src="scripts/main.js"></script>
   </body>
 </html>

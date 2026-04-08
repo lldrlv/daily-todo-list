@@ -11,7 +11,7 @@ export function displayList(myTasks) {
     item.innerHTML = ` 
     <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
     <span>${task.taskName}</span>
-    <button class="delete-button" data-id=${task.id}>Delete</button>
+   
     `;
 
     list.appendChild(item); // присваевам li родителя list (ul)

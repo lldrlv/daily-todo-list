@@ -1,38 +1,73 @@
 import { saveTasks, loadTasks } from "./storage.js";
 import { displayList } from "./ui.js";
 
+const openModalButton = document.getElementById("openModalButton");
+const closeModalButton = document.getElementById("closeModalButton");
 const addButton = document.getElementById("addButton"); // переменная для кнокпи добавления задачи
 const tasksList = document.querySelector(".to-do-list");
+const modal = document.querySelector(".add-modal");
 
 let myTasks = loadTasks(); //загружает в массив данные из бд
 // newTask — это объект (одна карточка), а myTasks — это массив (стопка карточек)
 displayList(myTasks); //отрисвка уже имеющихся задач
 
+openModalButton.onclick = function (event) {
+  //функция открытия модалки с добавлением задачи
+  switchingClass();
+};
+
+closeModalButton.onclick = function (event) {
+  //функция закрытия модалки
+  switchingClass();
+};
+
+function switchingClass() {
+  tasksList.classList.toggle("hidden");
+  modal.classList.toggle("hidden"); //переключение класса у модалки
+  openModalButton.classList.toggle("hidden");
+}
+
 addButton.onclick = function (event) {
   // событие по клику на кнопку
   event.preventDefault(); // запрет на обновление страницы при нажатии на кнопку добавить
   let taskName = document.getElementById("taskName").value.trim(); // получение и обрезка лишних пустых симовлов из инпута
-  if (!taskName) return; // проверка на пустой инпут
+  let deadline = document.getElementById("deadline").value;
+  let category = document.getElementById("category").value;
 
-  let now = new Date(); //создание переменной в которую записывается дата текущая
+  if (!taskName) {
+    alert("Enter a task");
+    return;
+  } else if (!deadline) {
+    alert("Enter a deadline");
+    return;
+  } else if (!category) {
+    alert("Choose a category");
+    return;
+  } // проверка на пустой инпут
+
+  // let now = new Date(); //создание переменной в которую записывается дата текущая
   const newTask = {
     // объект новой задачи
     id: crypto.randomUUID(), // генерация ID
     taskName,
-    year: now.getFullYear(), // добавление именно года, месяца, даты и дня (строки ниже)
-    month: now.getMonth(),
-    date: now.getDate(),
-    day: now.getDay(),
+    category,
+    deadline,
+    // year: now.getFullYear(), // добавление именно года, месяца, даты и дня (строки ниже)
+    // month: now.getMonth(),
+    // date: now.getDate(),
+    // day: now.getDay(),
     isDone: false, // задача не выполнена по умолчанию
   };
 
   myTasks.push(newTask); // добавление новой задачи в наш массив
   saveTasks(myTasks); // сохранение объекта
 
-  document.getElementById("taskName").value = ""; // очистка инпута
+  document.getElementById("taskName").value = ""; // очистка полей
+  document.getElementById("deadline").value = "";
+  document.getElementById("category").value = "";
+
   displayList(myTasks);
-  // временная проверка
-  console.log(myTasks);
+  switchingClass();
 };
 
 tasksList.onclick = function (event) {
