@@ -2,12 +2,16 @@ import { saveTasks, loadTasks } from "./storage.js";
 import { displayList } from "./ui.js";
 
 const openModalButton = document.getElementById("openModalButton");
-const closeModalButton = document.querySelector(".closeModalButton");
+const closeAddModalButton = document.querySelector(".closeAddModalButton");
+const closeEditModalButton = document.querySelector(".closeEditModalButton");
 const addButton = document.getElementById("addButton"); // переменная для кнокпи добавления задачи
+const deleteButton = document.querySelector("#deleteButton");
+const saveButton = document.querySelector("#saveButton");
+
 const tasksList = document.querySelector(".to-do-list");
+
 const addModal = document.querySelector(".add-modal");
 const editModal = document.querySelector(".edit-modal");
-const deleteButton = document.querySelector("#deleteButton");
 
 let myTasks = loadTasks(); //загружает в массив данные из бд
 // newTask — это объект (одна карточка), а myTasks — это массив (стопка карточек)
@@ -18,9 +22,14 @@ openModalButton.onclick = function () {
   switchingClassForAddModal();
 };
 
-closeModalButton.onclick = function () {
-  //функция закрытия модалки
+closeAddModalButton.onclick = function () {
+  //функция закрытия модалки добавления
   switchingClassForAddModal();
+};
+
+closeEditModalButton.onclick = function () {
+  //функция закрытия модалки редактирования
+  switchingClassForEditModal();
 };
 
 function switchingClassForAddModal() {
@@ -97,20 +106,21 @@ tasksList.onclick = function (event) {
     saveTasks(myTasks);
     displayList(myTasks);
 
-    return
-  } 
-   if (taskItem) {
+    return;
+  }
+  if (taskItem) {
     const taskID = taskItem.dataset.id;
-    
+    let foundTask = myTasks.find((task) => task.id === taskID);
+
+    document.querySelector("#renameTask").value = foundTask.taskName;
+    document.querySelector("#newDeadline").value = foundTask.deadline;
+    document.querySelector("#editCategory").value = foundTask.category;
+
     deleteButton.dataset.id = taskID;
+    saveButton.dataset.id = taskID;
     switchingClassForEditModal();
   }
 };
-
-function deleteTask(tasks, id) {
-  // если id который был передан не соответствует id объкта то оставляем
-  return tasks.filter((task) => task.id !== id);
-}
 
 deleteButton.onclick = function () {
   const taskID = this.dataset.id; //получаем id задачи из кнопки
@@ -122,5 +132,30 @@ deleteButton.onclick = function () {
 
     // Закрываем модалку после удаления
     switchingClassForEditModal();
+  }
+};
+
+function deleteTask(tasks, id) {
+  // если id который был передан не соответствует id объкта то оставляем
+  return tasks.filter((task) => task.id !== id);
+}
+
+saveButton.onclick = function () {
+  const id = this.dataset.id;
+  const task = myTasks.find((task) => task.id == id);
+
+  if (task) {
+    const newNameTask = document.querySelector("#renameTask").value.trim();
+    const newDeadline = document.querySelector("#newDeadline").value.trim();
+    const newCategory = document.querySelector("#editCategory").value.trim();
+
+    task.taskName = newNameTask;
+    task.deadline = newDeadline;
+    task.category = newCategory;
+
+    saveTasks(myTasks);
+
+    switchingClassForEditModal();
+    displayList(myTasks);
   }
 };

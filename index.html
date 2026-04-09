@@ -16,7 +16,7 @@
       <ul class="to-do-list"></ul>
       <button id="openModalButton">Add a task</button>
       <form class="add-modal hidden">
-        <button class="closeModalButton button"></button>
+        <button class="closeAddModalButton close-modal-button button" type="button"></button>
         <h2>Add task</h2>
         <label for="taskName" class="visually-hidden">Write a task...</label>
         <input
@@ -51,7 +51,7 @@
         <button id="addButton" class="button">Add</button>
       </form>
       <form class="edit-modal hidden">
-        <button class="closeModalButton button"></button>
+        <button class="closeEditModalButton close-modal-button button" type="button"></button>
         <h2>Editing a task</h2>
         <label for="renameTask" class="visually-hidden"
           >Rename the task...</label
@@ -62,13 +62,13 @@
           id="renameTask"
           placeholder="Rename the task..."
         />
-        <label for="editDeadline" class="visually-hidden"
+        <label for="newDeadline" class="visually-hidden"
           >Write the deadline...</label
         >
         <input
           type="date"
-          name="editDeadline"
-          id="editDeadline"
+          name="newDeadline"
+          id="newDeadline"
           placeholder="Edit the deadline..."
         />
         <label for="editCategory" class="visually-hidden"

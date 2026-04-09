@@ -132,7 +132,7 @@ button:hover {
   margin-top: auto;
 }
 
-.closeModalButton {
+.close-modal-button {
   position: relative;
   background-color: #393433;
   border-radius: var(--input-and-button-border-radius);
@@ -141,7 +141,7 @@ button:hover {
   height: 30px;
 }
 
-.closeModalButton::before {
+.close-modal-button::before {
   position: absolute;
   content: "";
   height: 18px;
@@ -153,7 +153,7 @@ button:hover {
   rotate: 135deg;
 }
 
-.closeModalButton::after {
+.close-modal-button::after {
   position: absolute;
   content: "";
   height: 18px;
