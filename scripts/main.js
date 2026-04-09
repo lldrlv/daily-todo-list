@@ -1,5 +1,5 @@
 import { saveTasks, loadTasks } from "./storage.js";
-import { displayList } from "./ui.js";
+import { displayList, displayGroupedTasks } from "./ui.js";
 
 const openModalButton = document.getElementById("openModalButton");
 const closeAddModalButton = document.querySelector(".closeAddModalButton");
@@ -7,6 +7,10 @@ const closeEditModalButton = document.querySelector(".closeEditModalButton");
 const addButton = document.getElementById("addButton"); // переменная для кнокпи добавления задачи
 const deleteButton = document.querySelector("#deleteButton");
 const saveButton = document.querySelector("#saveButton");
+
+const filterSelect = document.querySelector("#filter");
+const categorySelect = document.querySelector("#category");
+
 const filter = document.querySelector(".filter");
 
 const tasksList = document.querySelector(".to-do-list");
@@ -105,9 +109,10 @@ tasksList.onclick = function (event) {
     if (foundTask) {
       foundTask.isDone = !foundTask.isDone; // переключение статуса при клике
     }
+    myTasks.sort((a, b) => a.isDone - b.isDone);
 
     saveTasks(myTasks);
-    displayList(myTasks);
+    updateInterface();
 
     return;
   }
@@ -162,3 +167,21 @@ saveButton.onclick = function () {
     displayList(myTasks);
   }
 };
+
+filterSelect.onchange = updateInterface;
+
+function updateInterface() {
+  let value = filterSelect.value;
+
+  if (value === "byCategory") {
+    displayGroupedTasks(myTasks); // Вызываем специальную функцию для группировки
+  } else {
+    let filtered = myTasks.filter((task) => {
+      if (value === "allTasks") return true;
+      if (value === "completed") return task.isDone;
+      if (value === "unfulfilled") return !task.isDone;
+      return true;
+    });
+    displayList(filtered);
+  }
+}
