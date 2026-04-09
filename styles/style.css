@@ -166,8 +166,9 @@ button:hover {
 }
 
 .add-modal input,
-select,
-.edit-modal input {
+.edit-modal input,
+#editCategory,
+#category {
   height: var(--height-input-and-button);
   background-color: var(--input-and-task-bg-color);
   border: none;
@@ -177,7 +178,9 @@ select,
 .edit-modal input {
   padding-inline: 16px;
 }
-select {
+#editCategory,
+#category,
+#filter {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -186,7 +189,7 @@ select {
   background-repeat: no-repeat;
   background-position: right 16px center;
   background-size: 16px;
-  padding-right: 45px;
+  padding-right: 30px;
 }
 
 h2 {
@@ -203,6 +206,21 @@ h2 {
 
 .edit-modal-buttons button {
   width: 50%;
+}
+
+.filter {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+#filter {
+  margin-bottom: 20px;
+  height: 30px;
+  border-radius: var(--input-and-button-border-radius);
+  border: #393433 2px solid;
+  background-color: transparent;
+  box-sizing: border-box;
 }
 
 @media (max-width: 500px) {

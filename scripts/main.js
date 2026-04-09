@@ -7,6 +7,7 @@ const closeEditModalButton = document.querySelector(".closeEditModalButton");
 const addButton = document.getElementById("addButton"); // переменная для кнокпи добавления задачи
 const deleteButton = document.querySelector("#deleteButton");
 const saveButton = document.querySelector("#saveButton");
+const filter = document.querySelector(".filter");
 
 const tasksList = document.querySelector(".to-do-list");
 
@@ -36,12 +37,14 @@ function switchingClassForAddModal() {
   tasksList.classList.toggle("hidden");
   addModal.classList.toggle("hidden"); //переключение класса у модалки
   openModalButton.classList.toggle("hidden");
+  filter.classList.toggle("hidden");
 }
 
 function switchingClassForEditModal() {
   tasksList.classList.toggle("hidden");
   editModal.classList.toggle("hidden"); //переключение класса у модалки
   openModalButton.classList.toggle("hidden");
+  filter.classList.toggle("hidden");
 }
 
 addButton.onclick = function (event) {

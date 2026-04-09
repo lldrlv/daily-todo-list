@@ -13,10 +13,21 @@
   <body>
     <section class="container main-section">
       <h1 class="visually-hidden">To-Do List</h1>
+      <div class="filter">
+        <select name="filter" id="filter">
+          <option value="allTasks">All tasks</option>
+          <option value="completed">Сompleted</option>
+          <option value="unfulfilled">Unfulfilled</option>
+          <option value="byCategory">By category</option>
+        </select>
+      </div>
       <ul class="to-do-list"></ul>
       <button id="openModalButton">Add a task</button>
       <form class="add-modal hidden">
-        <button class="closeAddModalButton close-modal-button button" type="button"></button>
+        <button
+          class="closeAddModalButton close-modal-button button"
+          type="button"
+        ></button>
         <h2>Add task</h2>
         <label for="taskName" class="visually-hidden">Write a task...</label>
         <input
@@ -51,7 +62,10 @@
         <button id="addButton" class="button">Add</button>
       </form>
       <form class="edit-modal hidden">
-        <button class="closeEditModalButton close-modal-button button" type="button"></button>
+        <button
+          class="closeEditModalButton close-modal-button button"
+          type="button"
+        ></button>
         <h2>Editing a task</h2>
         <label for="renameTask" class="visually-hidden"
           >Rename the task...</label
