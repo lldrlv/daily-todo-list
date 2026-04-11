@@ -22,7 +22,7 @@ button {
   color: var(--input-and-task-bg-color);
   border-radius: var(--input-and-button-border-radius);
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition-duration: 0.3s;
   border: none;
 }
 
@@ -35,7 +35,7 @@ button:focus,
 }
 
 button:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
 }
 
 .visually-hidden {
@@ -88,6 +88,12 @@ button:hover {
   padding-inline: 16px;
   background-color: var(--input-and-task-bg-color);
   border-radius: var(--input-and-button-border-radius);
+  transition-duration: 0.3s;
+}
+
+.to-do-item:hover {
+  cursor: pointer;
+  background-color: #eae1e1;
 }
 
 .delete-button {
@@ -190,6 +196,11 @@ button:hover {
   background-position: right 16px center;
   background-size: 16px;
   padding-right: 30px;
+  transition-duration: 0.3s;
+}
+
+#filter:hover {
+  scale: 1.05;
 }
 
 h2 {
@@ -212,15 +223,16 @@ h2 {
   display: flex;
   justify-content: end;
   align-items: center;
+  column-gap: 10px;
+  margin-bottom: 20px;
 }
 
 #filter {
-  margin-bottom: 20px;
-  height: 30px;
   border-radius: var(--input-and-button-border-radius);
   border: #393433 2px solid;
   background-color: transparent;
   box-sizing: border-box;
+  height: 30px;
 }
 
 @media (max-width: 500px) {

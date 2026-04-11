@@ -9,11 +9,11 @@ const deleteButton = document.querySelector("#deleteButton");
 const saveButton = document.querySelector("#saveButton");
 
 const filterSelect = document.querySelector("#filter");
-const categorySelect = document.querySelector("#category");
 
 const filter = document.querySelector(".filter");
 
 const tasksList = document.querySelector(".to-do-list");
+const taskItem = document.querySelector(".to-do-item");
 
 const addModal = document.querySelector(".add-modal");
 const editModal = document.querySelector(".edit-modal");
@@ -85,6 +85,7 @@ addButton.onclick = function (event) {
 
   myTasks.push(newTask); // добавление новой задачи в наш массив
   saveTasks(myTasks); // сохранение объекта
+  sortTasks(myTasks);
 
   document.getElementById("taskName").value = ""; // очистка полей
   document.getElementById("deadline").value = "";
@@ -108,9 +109,10 @@ tasksList.onclick = function (event) {
     // проверка на пустое значение
     if (foundTask) {
       foundTask.isDone = !foundTask.isDone; // переключение статуса при клике
+      const parentLi = checkbox.closest(".to-do-item");
+      parentLi.classList.toggle("done");
     }
-    myTasks.sort((a, b) => a.isDone - b.isDone);
-
+    sortTasks(myTasks);
     saveTasks(myTasks);
     updateInterface();
 
@@ -129,7 +131,6 @@ tasksList.onclick = function (event) {
     switchingClassForEditModal();
   }
 };
-
 deleteButton.onclick = function () {
   const taskID = this.dataset.id; //получаем id задачи из кнопки
 
@@ -185,3 +186,9 @@ function updateInterface() {
     displayList(filtered);
   }
 }
+
+function sortTasks(myTasks) {
+  myTasks.sort((a, b) => a.isDone - b.isDone);
+}
+
+

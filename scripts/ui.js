@@ -8,12 +8,17 @@ export function displayList(myTasksInner) {
     item.className = "to-do-item"; // задаем класс для li
     item.dataset.id = task.id;
 
+    const isDoneClass = task.isDone ? "done" : ""; // Проверяем статус
+    item.className = `to-do-item ${isDoneClass}`; // Добавляем класс li
+
     //вставляем в li информацию из объекта
     item.innerHTML = ` 
-    <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
-    <span>${task.taskName}</span>
-   
-    `;
+        <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
+        <span class="task-text">${task.taskName}
+          <span class="strike-line"></span>
+        </span>
+        
+      `;
 
     list.appendChild(item); // присваевам li родителя list (ul)
   });
@@ -40,12 +45,17 @@ export function displayGroupedTasks(myTasksInner) {
       item.className = "to-do-item"; // задаем класс для li
       item.dataset.id = task.id;
 
+      const isDoneClass = task.isDone ? "done" : ""; // Проверяем статус
+      item.className = `to-do-item ${isDoneClass}`; // Добавляем класс li
+
       //вставляем в li информацию из объекта
       item.innerHTML = ` 
-    <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
-    <span>${task.taskName}</span>
-   
-    `;
+        <input type="checkbox" class="checkbox" data-id="${task.id}" ${task.isDone ? "checked" : ""}>
+        <span class="task-text">${task.taskName}
+          <span class="strike-line"></span>
+        </span>
+        
+      `;
 
       list.appendChild(item); // присваевам li родителя list (ul)
     });
