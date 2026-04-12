@@ -1,5 +1,7 @@
 import { saveTasks, loadTasks } from "./storage.js";
-import { displayList, displayGroupedTasks } from "./ui.js";
+import { displayList, displayGroupedTasks, renderDateStrip } from "./ui.js";
+
+let currentSelectedDate = null;
 
 const openModalButton = document.getElementById("openModalButton");
 const closeAddModalButton = document.querySelector(".closeAddModalButton");
@@ -8,19 +10,19 @@ const addButton = document.getElementById("addButton"); // переменная 
 const deleteButton = document.querySelector("#deleteButton");
 const saveButton = document.querySelector("#saveButton");
 
+const datesLine = document.querySelector(".dates");
+
 const filterSelect = document.querySelector("#filter");
 
 const filter = document.querySelector(".filter");
 
 const tasksList = document.querySelector(".to-do-list");
-const taskItem = document.querySelector(".to-do-item");
 
 const addModal = document.querySelector(".add-modal");
 const editModal = document.querySelector(".edit-modal");
 
 let myTasks = loadTasks(); //загружает в массив данные из бд
 // newTask — это объект (одна карточка), а myTasks — это массив (стопка карточек)
-displayList(myTasks); //отрисвка уже имеющихся задач
 
 openModalButton.onclick = function () {
   //функция открытия модалки с добавлением задачи
@@ -42,6 +44,7 @@ function switchingClassForAddModal() {
   addModal.classList.toggle("hidden"); //переключение класса у модалки
   openModalButton.classList.toggle("hidden");
   filter.classList.toggle("hidden");
+  datesLine.classList.toggle("hidden");
 }
 
 function switchingClassForEditModal() {
@@ -49,6 +52,7 @@ function switchingClassForEditModal() {
   editModal.classList.toggle("hidden"); //переключение класса у модалки
   openModalButton.classList.toggle("hidden");
   filter.classList.toggle("hidden");
+  datesLine.classList.toggle("hidden");
 }
 
 addButton.onclick = function (event) {
@@ -93,6 +97,7 @@ addButton.onclick = function (event) {
 
   displayList(myTasks);
   switchingClassForAddModal();
+  updateInterface();
 };
 
 tasksList.onclick = function (event) {
@@ -137,7 +142,7 @@ deleteButton.onclick = function () {
   if (taskID) {
     myTasks = deleteTask(myTasks, taskID);
     saveTasks(myTasks);
-    displayList(myTasks);
+    updateInterface();
 
     // Закрываем модалку после удаления
     switchingClassForEditModal();
@@ -165,7 +170,7 @@ saveButton.onclick = function () {
     saveTasks(myTasks);
 
     switchingClassForEditModal();
-    displayList(myTasks);
+    updateInterface();
   }
 };
 
@@ -174,15 +179,24 @@ filterSelect.onchange = updateInterface;
 function updateInterface() {
   let value = filterSelect.value;
 
+  // 1. Сначала фильтруем по дате (если она выбрана)
+  let filtered = myTasks.filter((task) => {
+    if (!currentSelectedDate) return true; // если дата не выбрана, берем все
+    return task.deadline === currentSelectedDate;
+  });
+
+  // 2. Затем фильтруем то, что осталось, по статусу (All/Done/Active)
+  filtered = filtered.filter((task) => {
+    if (value === "allTasks" || value === "byCategory") return true;
+    if (value === "completed") return task.isDone;
+    if (value === "unfulfilled") return !task.isDone;
+    return true;
+  });
+
+  // 3. Отрисовываем итоговый массив
   if (value === "byCategory") {
-    displayGroupedTasks(myTasks); // Вызываем специальную функцию для группировки
+    displayGroupedTasks(filtered);
   } else {
-    let filtered = myTasks.filter((task) => {
-      if (value === "allTasks") return true;
-      if (value === "completed") return task.isDone;
-      if (value === "unfulfilled") return !task.isDone;
-      return true;
-    });
     displayList(filtered);
   }
 }
@@ -191,4 +205,32 @@ function sortTasks(myTasks) {
   myTasks.sort((a, b) => a.isDone - b.isDone);
 }
 
+function getDatesRange(today) {
+  let arrayOfDays = [];
 
+  for (let i = 0; i < 60; i++) {
+    let date = new Date(today);
+    date.setDate(date.getDate() + i);
+
+    arrayOfDays.push(date);
+  }
+
+  return arrayOfDays;
+}
+
+function handleDateClick(selectedDate) {
+  currentSelectedDate = selectedDate;
+  updateInterface();
+}
+
+const week = getDatesRange(new Date());
+renderDateStrip(week, handleDateClick);
+
+const todayISO = new Date().toISOString().split("T")[0];
+handleDateClick(todayISO);
+
+// Используем setTimeout, чтобы DOM успел "понять", что кнопки созданы
+setTimeout(() => {
+  const todayBtn = document.querySelector(`[data-date="${todayISO}"]`);
+  if (todayBtn) todayBtn.classList.add("isSelected");
+}, 0);

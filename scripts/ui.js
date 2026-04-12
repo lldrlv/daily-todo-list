@@ -61,3 +61,51 @@ export function displayGroupedTasks(myTasksInner) {
     });
   });
 }
+
+export function renderDateStrip(arrayOfDays, onDateClick) {
+  const datesContainer = document.querySelector(".dates");
+  if (!datesContainer) return;
+
+  datesContainer.innerHTML = "";
+
+  arrayOfDays.forEach((date, index) => {
+    const dateCell = document.createElement("button");
+    dateCell.classList.add("date-cell");
+
+
+
+    const dateISO = date.toISOString().split("T")[0];
+    dateCell.dataset.date = dateISO;
+
+    dateCell.innerHTML = `
+      <span class='cell-day'>${date.toLocaleDateString("en-US", { weekday: "short" })} </span>
+      <span class='cell-date'> ${date.getDate()}</span>
+    `;
+
+    dateCell.addEventListener("click", () => {
+      // 1. Проверяем, была ли она уже активна
+      const isAlreadyActive = dateCell.classList.contains("isSelected");
+
+      // 2. Снимаем выделение со всех кнопок
+      const currentActive = document.querySelector(".isSelected");
+      if (currentActive) {
+        currentActive.classList.remove("isSelected");
+      }
+
+      // 3. Если кнопка НЕ была активна — выделяем её и шлем дату
+      if (!isAlreadyActive) {
+        dateCell.classList.add("isSelected");
+        if (typeof onDateClick === "function") {
+          onDateClick(dateISO);
+        }
+      } else {
+        // Если была активна — мы её погасили, теперь шлем null, чтобы показать все задачи
+        if (typeof onDateClick === "function") {
+          onDateClick(null);
+        }
+      }
+    });
+
+    datesContainer.appendChild(dateCell);
+  });
+}
